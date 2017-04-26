@@ -95,6 +95,6 @@ class Settings{
 
 If you think that this project could be improved, visit [Issues](https://github.com/ZeroWP/Plugin-Boilerplate/issues) section and create a new topic.
 
-If you want to contribute, create a pull request and exaplain what your contribution does and why.
+If you want to contribute, create a pull request and explain what your contribution does and why it should be merged.
 
 **Made with love by [ZeroWP](http://zerowp.com)**
