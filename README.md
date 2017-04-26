@@ -73,8 +73,8 @@ namespace MyTodoApp;
 class SpecialExample{
 	// Class code here
 }
+```
 
-``
 #### File: `engine/Admin/Settings.class.php`
 ```php 
 namespace MyTodoApp\Admin;
@@ -97,4 +97,4 @@ If you think that this project could be improved, visit [Issues](https://github.
 
 If you want to contribute, create a pull request and exaplain what your contribution does and why.
 
-#### Made with :heart: by [ZeroWP](http://zerowp.com)
+**Made with :heart: by [ZeroWP](http://zerowp.com)**
