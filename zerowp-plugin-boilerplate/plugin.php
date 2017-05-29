@@ -62,22 +62,7 @@ final class ZPB_Plugin{
 	 * @return mixed 
 	 */
 	public function config( $key = false ){
-
-		// Define some settings to be used plugin files.
-		$settings = apply_filters( 'zpb_config_args', array(
-			
-			'version'   => $this->version,
-			'id'        => 'zerowp-plugin-boilerplate',
-			'lang_path' => ZPB_PATH . 'languages',
-
-		));
-
-		if( !empty($key) && array_key_exists($key, $settings) ){
-			return $settings[ $key ];
-		}
-		else{
-			return $settings;
-		}
+		return zpb_config( $key );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -96,7 +81,7 @@ final class ZPB_Plugin{
 		$this->buildPlugin();
 
 		// Plugin fully loaded and executed
-		do_action( 'zpb_loaded' );
+		do_action( 'zpb:loaded' );
 	}
 	
 	//------------------------------------//--------------------------------------//
@@ -110,7 +95,7 @@ final class ZPB_Plugin{
 		register_activation_hook( ZPB_PLUGIN_FILE, array( $this, 'onActivation' ) );
 		register_deactivation_hook( ZPB_PLUGIN_FILE, array( $this, 'onDeactivation' ) );
 
-		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( $this->config( 'init' ), array( $this, 'init' ), 0 );
 		add_action( 'widgets_init', array( $this, 'initWidgets' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontendScriptsAndStyles' ) );
@@ -127,13 +112,13 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function init() {
-		do_action( 'before_zpb_init' );
+		do_action( 'zpb:before_init' );
 
 		$this->loadTextDomain();
 
 		// Call plugin classes/functions here.
 
-		do_action( 'zpb_init' );
+		do_action( 'zpb:init' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -144,11 +129,11 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function initWidgets() {
-		do_action( 'before_zpb_widgets_init' );
+		do_action( 'zpb:before_widgets_init' );
 
 		// register_widget( 'ExampleWidget' );
 
-		do_action( 'zpb_widgets_init' );
+		do_action( 'zpb:widgets_init' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -237,6 +222,7 @@ final class ZPB_Plugin{
 	 */
 	public function onActivation() {
 		// Code to be executed on plugin activation
+		do_action( 'zpb:on_activation' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -248,6 +234,7 @@ final class ZPB_Plugin{
 	 */
 	public function onDeactivation() {
 		// Code to be executed on plugin deactivation
+		do_action( 'zpb:on_deactivation' );
 	}
 
 	//------------------------------------//--------------------------------------//

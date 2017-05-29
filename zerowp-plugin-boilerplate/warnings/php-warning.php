@@ -1,34 +1,17 @@
 <?php 
-class ZPB_PHP_Warning{
+require_once ZPB_PATH . 'warnings/abstract-warning.php';
 
-	public $page_slug = 'zpb-php-fail-notice';
+class ZPB_PHP_Warning extends ZPB_Astract_Warning{
 
-	public function __construct(){
-		add_action( 'admin_menu', array( $this, 'register' ) );
-		add_action( 'admin_head', array( $this, 'style' ) );
-	}
-
-	function register(){
-		add_menu_page( 
-			__( 'ZeroWP Plugin Boilerplate', 'zerowp-plugin-boilerplate' ),
-			__( 'ZeroWP Plugin Boilerplate', 'zerowp-plugin-boilerplate' ),
-			'manage_options',
-			$this->page_slug,
-			array( $this, 'notice' ),
-			'dashicons-warning',
-			60
-		); 
-	}
-
-	// Thanks to Yoast SEO for text.
-	function notice(){
+	public function notice(){
 		
-		$output = '<div class="'. $this->page_slug .'">';
+		// Thanks to Yoast SEO for text.
+		$output = '';
 		
-		$output .= '<h1>' . sprintf( 
+		$output .= '<h2>' . sprintf( 
 			__( 'This plugin requires PHP version %s or higher!', 'zerowp-plugin-boilerplate' ), 
 			ZPB_MIN_PHP_VERSION 
-		) .'</h1>';
+		) .'</h2>';
 
 		$output .= '<h3>'. __( 'Your site could be faster and more secure with a newer PHP version.', 'zerowp-plugin-boilerplate' ) . '</h3>';
 
@@ -40,35 +23,8 @@ class ZPB_PHP_Warning{
 
 		$output .= '<p>'. sprintf( __( 'While this plugin requires at least %s, you should update your PHP version to either 5.6 or to 7.0 or 7.1. On a normal WordPress site, switching to PHP 5.6 should never cause issues. We would however actually recommend you switch to PHP7. There are some plugins that are not ready for PHP7 though, so do some testing first. PHP7 is much faster than PHP 5.6. It\'s also the only PHP version still in active development and therefore the better option for your site in the long run.', 'zerowp-plugin-boilerplate' ), ZPB_MIN_PHP_VERSION ) .'<p>';
 
-		$output .= '</div>';
+		return $output;
 		
-		echo $output;
-		
-	}
-
-	public function style(){
-		if( is_admin() && isset( $_GET['page'] ) && $this->page_slug === $_GET['page'] ){
-			echo '<style>
-				.'. $this->page_slug .'{
-					display: block;
-					position: relative;
-					max-width: 800px;
-					margin: 50px auto;
-					padding: 40px;
-					border-radius: 7px;
-					background: #fff;
-					border: 1px solid #f00505;
-				}
-				.'. $this->page_slug .' p{
-					font-size: 16px;
-					color: #444;
-					margin-bottom: 30px;
-				}
-				.'. $this->page_slug .' h3{
-					margin-top: 30px;
-				}
-			</style>';
-		}
 	}
 
 }
