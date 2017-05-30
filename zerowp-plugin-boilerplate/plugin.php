@@ -39,7 +39,7 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'zerowp-plugin-boilerplate' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '1.0' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -50,7 +50,7 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'zerowp-plugin-boilerplate' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '1.0' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -145,7 +145,7 @@ final class ZPB_Plugin{
 	 */
 	public function loadTextDomain(){
 		load_plugin_textdomain( 
-			'zerowp-plugin-boilerplate', 
+			'{TEXT_DOMAIN}', 
 			false, 
 			$this->config( 'lang_path' ) 
 		);

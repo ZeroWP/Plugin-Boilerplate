@@ -1,16 +1,16 @@
 <?php
 /* 
- * Plugin Name: ZeroWP Plugin Boilerplate
- * Plugin URI:  http://zerowp.com/plugin-boilerplate
- * Description: A short description of this plugin.
- * Author:      ZeroWP Team
- * Author URI:  http://zerowp.com/
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: zerowp-plugin-boilerplate
+ * Plugin Name: {PLUGIN_NAME}
+ * Plugin URI:  {PLUGIN_URI}
+ * Description: {DESCRIPTION}
+ * Author:      {AUTHOR}
+ * Author URI:  {AUTHOR_URI}
+ * License:     {LICENSE}
+ * License URI: {LICENSE_URI}
+ * Text Domain: {TEXT_DOMAIN}
  * Domain Path: /languages
  *
- * Version:     1.0
+ * Version:     {VERSION}
  * 
  */
 
@@ -21,23 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /* Plugin configuration
 ----------------------------*/
 function zpb_config( $key = false ){
-	$settings = apply_filters( 'zpb_config_args', array(
+	$settings = apply_filters( 'zpb:config_args', array(
 		
 		// Plugin data
-		'version'          => '1.0',
-		'min_php_version'  => '5.3',
+		'version'          => '{VERSION}',
+		'min_php_version'  => '{MIN_PHP_VERSION}',
 		
 		// The list of required plugins. 'slug' => array 'name and uri'
-		'required_plugins' => array(
-			// 'special-plugin' => array(
-			// 	'plugin_name' => 'Special Plugin by ZWP',
-			// 	'plugin_uri'  => 'http://example.com',
-			// ),
-			// 'special-plugin-alt' => array(
-			// 	'plugin_name' => 'Special Plugin Alt by ZWP',
-			// 	'plugin_uri'  => 'http://example.com/alt',
-			// ),
-		),
+		'required_plugins' => array(),
 
 		// The priority in plugins loaded. Only if has required plugins
 		'priority'         => 10,
@@ -46,11 +37,11 @@ function zpb_config( $key = false ){
 		'action_name'      => 'init',
 
 		// Plugin branding
-		'plugin_name'      => __( 'ZeroWP Plugin Boilerplate', 'zerowp-plugin-boilerplate' ),
-		'id'               => 'zerowp-plugin-boilerplate',
+		'plugin_name'      => __( '{PLUGIN_NAME}', '{TEXT_DOMAIN}' ),
+		'id'               => '{TEXT_DOMAIN}',
+		'namespace'        => '{NAMESPACE}',
 		'uppercase_prefix' => 'ZPB',
 		'lowercase_prefix' => 'zpb',
-		'namespace'        => 'Zpb',
 		
 		// Access to plugin directory
 		'file'             => __FILE__,
