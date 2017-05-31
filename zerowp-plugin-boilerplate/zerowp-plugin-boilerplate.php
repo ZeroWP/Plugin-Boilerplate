@@ -1,16 +1,16 @@
 <?php
 /* 
- * Plugin Name: {PLUGIN_NAME}
- * Plugin URI:  {PLUGIN_URI}
- * Description: {DESCRIPTION}
- * Author:      {AUTHOR}
- * Author URI:  {AUTHOR_URI}
- * License:     {LICENSE}
- * License URI: {LICENSE_URI}
- * Text Domain: {TEXT_DOMAIN}
+ * Plugin Name: _PLUGIN_NAME_
+ * Plugin URI:  _PLUGIN_URI_
+ * Description: _DESCRIPTION_
+ * Author:      _AUTHOR_
+ * Author URI:  _AUTHOR_URI_
+ * License:     _LICENSE_
+ * License URI: _LICENSE_URI_
+ * Text Domain: _TEXT_DOMAIN_
  * Domain Path: /languages
  *
- * Version:     {VERSION}
+ * Version:     _VERSION_
  * 
  */
 
@@ -24,8 +24,8 @@ function zpb_config( $key = false ){
 	$settings = apply_filters( 'zpb:config_args', array(
 		
 		// Plugin data
-		'version'          => '{VERSION}',
-		'min_php_version'  => '{MIN_PHP_VERSION}',
+		'version'          => '_VERSION_',
+		'min_php_version'  => '_MIN_PHP_VERSION_',
 		
 		// The list of required plugins. 'slug' => array 'name and uri'
 		'required_plugins' => array(),
@@ -37,9 +37,9 @@ function zpb_config( $key = false ){
 		'action_name'      => 'init',
 
 		// Plugin branding
-		'plugin_name'      => __( '{PLUGIN_NAME}', '{TEXT_DOMAIN}' ),
-		'id'               => '{TEXT_DOMAIN}',
-		'namespace'        => '{NAMESPACE}',
+		'plugin_name'      => __( '_PLUGIN_NAME_', '_TEXT_DOMAIN_' ),
+		'id'               => '_TEXT_DOMAIN_',
+		'namespace'        => '_NAMESPACE_',
 		'uppercase_prefix' => 'ZPB',
 		'lowercase_prefix' => 'zpb',
 		
@@ -149,6 +149,12 @@ final class ZPB_Plugin_Init{
 	 */
 	public function getSource(){
 		require_once ZPB_PATH . 'plugin.php';
+		
+		$components = glob( ZPB_PATH .'components/*', GLOB_ONLYDIR );
+		foreach ($components as $component_path) {
+			require_once trailingslashit( $component_path ) .'component.php';
+		}
+	
 	}
 
 	//------------------------------------//--------------------------------------//

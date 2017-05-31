@@ -39,7 +39,7 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '_TEXT_DOMAIN_' ), '1.0' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -50,7 +50,7 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '_TEXT_DOMAIN_' ), '1.0' );
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -80,6 +80,9 @@ final class ZPB_Plugin{
 		// Build the plugin
 		$this->buildPlugin();
 
+		// Load components, if any...
+		$this->loadComponents();
+
 		// Plugin fully loaded and executed
 		do_action( 'zpb:loaded' );
 	}
@@ -95,7 +98,7 @@ final class ZPB_Plugin{
 		register_activation_hook( ZPB_PLUGIN_FILE, array( $this, 'onActivation' ) );
 		register_deactivation_hook( ZPB_PLUGIN_FILE, array( $this, 'onDeactivation' ) );
 
-		add_action( $this->config( 'init' ), array( $this, 'init' ), 0 );
+		add_action( $this->config( 'action_name' ), array( $this, 'init' ), 0 );
 		add_action( 'widgets_init', array( $this, 'initWidgets' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontendScriptsAndStyles' ) );
@@ -117,7 +120,6 @@ final class ZPB_Plugin{
 		$this->loadTextDomain();
 
 		// Call plugin classes/functions here.
-
 		do_action( 'zpb:init' );
 	}
 
@@ -145,10 +147,24 @@ final class ZPB_Plugin{
 	 */
 	public function loadTextDomain(){
 		load_plugin_textdomain( 
-			'{TEXT_DOMAIN}', 
+			'_TEXT_DOMAIN_', 
 			false, 
 			$this->config( 'lang_path' ) 
 		);
+	}
+
+	//------------------------------------//--------------------------------------//
+	
+	/**
+	 * Load components
+	 *
+	 * @return void 
+	 */
+	public function loadComponents(){
+		$components = glob( ZPB_PATH .'components/*', GLOB_ONLYDIR );
+		foreach ($components as $component_path) {
+			require_once trailingslashit( $component_path ) .'component.php';
+		}
 	}
 
 	//------------------------------------//--------------------------------------//
