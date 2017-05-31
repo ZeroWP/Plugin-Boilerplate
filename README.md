@@ -29,9 +29,9 @@ Do a global `search and replace`,  **Case-sensitive**, in `my-todo-app` folder. 
 {VERSION}         // The version. Example: `1.0`
 {MIN_PHP_VERSION} // The minimum version of PHP required.
 {DESCRIPTION}     // The short description.
-{NAMESPACE}       // The PHP namespace. This one is is used by autoloader.php
 {LICENSE}         // The license. Example GPL-2.0+
 {LICENSE_URI}     // The license URI.
+_NAMESPACE_       // The PHP namespace. This one is is used by autoloader.php
 ZPB               // The uppercase prefix. This one is used by constants and it's the function name of main plugin instance.
 zpb               // The lowercase prefix. This prefix is used for css classes, functions and hooks.
 ```
