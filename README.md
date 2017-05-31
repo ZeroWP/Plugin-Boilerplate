@@ -18,19 +18,20 @@ Before you proceed let's assume that the new plugin ID will be `my-todo-app`.
 
 ##### Step 2: Search and replace
 
-Do a global `search and replace`,  **Case-sensitive**, in `my-todo-app` folder. **The order is important!**
+Do a global `search and replace`,  *Case-sensitive*, in `my-todo-app` folder. 
+**The order is important!!!**
 
 ```
-{TEXT_DOMAIN}     // The plugin ID. In this case it is `my-todo-app`
-{PLUGIN_NAME}     // The plugin name. Example: `My TODO App`
-{PLUGIN_URI}      // The plugin URI.
-{AUTHOR}          // The author name.
-{AUTHOR_URI}      // The author URI.
-{VERSION}         // The version. Example: `1.0`
-{MIN_PHP_VERSION} // The minimum version of PHP required.
-{DESCRIPTION}     // The short description.
-{LICENSE}         // The license. Example GPL-2.0+
-{LICENSE_URI}     // The license URI.
+_TEXT_DOMAIN_     // The plugin ID. In this case it is `my-todo-app`
+_PLUGIN_NAME_     // The plugin name. Example: `My TODO App`
+_PLUGIN_URI_      // The plugin URI.
+_AUTHOR_URI_      // The author URI.
+_AUTHOR_          // The author name.
+_MIN_PHP_VERSION_ // The minimum version of PHP required.
+_VERSION_         // The version. Example: `1.0`
+_DESCRIPTION_     // The short description.
+_LICENSE_URI_     // The license URI.
+_LICENSE_         // The license. Example GPL-2.0+
 _NAMESPACE_       // The PHP namespace. This one is is used by autoloader.php
 ZPB               // The uppercase prefix. This one is used by constants and it's the function name of main plugin instance.
 zpb               // The lowercase prefix. This prefix is used for css classes, functions and hooks.
