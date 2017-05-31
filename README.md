@@ -10,51 +10,42 @@ The code is distributed under GPLv2 license(just like WordPress itself). You are
 
 ## Getting started
 
-Before you start building your plugin, you must do some changes. 
+Before you proceed let's assume that the new plugin ID will be `my-todo-app`.
 
-Let's assume that your new plugin will have the: 
-```
-name:      My TODO App // Plugin name
-slug:      my-todo-app // Text used for folder/plugin file name and text-domain
-prefix:    MTAPP       // Prefix used for constants and some PHP classes.
-prefix:    mtapp       // Prefix used for functions, hooks, css classnames/ids, etc.
-namespace: MyTodoApp   // The namespace used for PHP classes.  
-```
-
-##### Step 1: Prepare the structure
+1. Create a copy of `zerowp-plugin-boilerplate`.
 1. Rename plugin folder name from `zerowp-plugin-boilerplate` to your plugin slug `my-todo-app`.
-2. Rename plugin file name from `zerowp-plugin-boilerplate.php` to your plugin slug `my-todo-app.php`.
-3. Open `my-todo-app.php` and update the header info. change plugin name, description, version and so on...
+1. Rename plugin file name from `zerowp-plugin-boilerplate.php` to your plugin slug `my-todo-app.php`.
 
 ##### Step 2: Search and replace
 
-Perform a global **Case-sensitive** `search and replace` in `my-todo-app` folder. The order is important!
+Do a global `search and replace`,  **Case-sensitive**, in `my-todo-app` folder. **The order is important!**
 
-1. Search for `zerowp-plugin-boilerplate` and replace with `my-todo-app`
-2. Search for `ZeroWP Plugin Boilerplate` and replace with `My TODO App`
-3. Search for prefix `ZPBNamespace` and replace with `MyTodoApp`.
-4. Search for prefix `ZPB` and replace with `MTAPP`.
-5. Search for prefix `zpb` and replace with `mtapp`.
+```
+{TEXT_DOMAIN}     // The plugin ID. In this case it is `my-todo-app`
+{PLUGIN_NAME}     // The plugin name. Example: `My TODO App`
+{PLUGIN_URI}      // The plugin URI.
+{AUTHOR}          // The author name.
+{AUTHOR_URI}      // The author URI.
+{VERSION}         // The version. Example: `1.0`
+{MIN_PHP_VERSION} // The minimum version of PHP required.
+{DESCRIPTION}     // The short description.
+{NAMESPACE}       // The PHP namespace. This one is is used by autoloader.php
+{LICENSE}         // The license. Example GPL-2.0+
+{LICENSE_URI}     // The license URI.
+ZPB               // The uppercase prefix. This one is used by constants and it's the function name of main plugin instance.
+zpb               // The lowercase prefix. This prefix is used for css classes, functions and hooks.
+```
 
 ##### Step 3: Add plugin data for wp.org plugin repository.
 
 1. Open `readme.txt` file and change the content to match you plugin data.
 
-## What's next?
-
-`my-todo-app.php` file contains the base constants. 
-
-1. Change the value of `MTAPP_MIN_PHP_VERSION` constant with the minimum PHP version that your plugin requires. It can't be lower than `5.3`. This will display an upgrade notice to users that use your plugin and does not have the required PHP version.
-2. Update `MTAPP_VERSION` to match the version from plugin header. This value must be changed on every plugin update.
-
-
 ## Create the plugin
-`plugin.php` files is the plugin foundation. Everything what happens in your plugin starts from there.
+`plugin.php` file is the plugin foundation. Everything what happens in your plugin starts there.
 
-Inside you'll find the necesary methods to make it functional. Some of these methods are:
+Within this file you'll find the necesary methods to make it functional. Some of these methods are:
 
-* `config()` - Here you must define the main settings. Then you can access them ouside by calling `MTAPP()->config( $key = false )`.
-* `__construct()` - is where you must include the core files. Include them just before `$this->buildPlugin()`;
+* `__construct()` - is where you must include the core files. Include them just before `$this->buildPlugin()`; You better create the `components` and inject the code there using the `zpb:init` action hook.
 * `init()` - Later you'll create the core classes in `engine` folder and then you must call them. You can do so just before this line: `do_action( 'mtapp_init' );`.
 * `initWidgets()` - Register widgets with `register_widget` function, just before this line: `do_action( 'mtapp_widgets_init' );`.
 * `frontendScriptsAndStyles()` and `backendScriptsAndStyles()` will register/enqueue scripts and styles. You must uncomment the enqueue lines.
@@ -64,7 +55,7 @@ Everything else is self documented. See the source code for more info.
 ## How to create the core
 
 * The core files must be included in `engine` folder. The file names for PHP classes must include the suffix `.class.php`. This will make possible to be loaded automatically when needed. Example: `SpecialExample.class.php`
-* All core classes must use the previously defined namespace( *MyTodoApp* ). Examples:
+* All core classes must use the previously defined namespace. Suppose it is: *MyTodoApp*. Examples:
 
 #### File: `engine/SpecialExample.class.php`
 ```php 
@@ -83,6 +74,8 @@ class Settings{
 	// Class code here
 }
 ```
+
+* You may separate the code in `components` folder. Then inject each component using the `zpb:init` action hook. Note: Replace the `zpb` prefix! 
 
 ## FYI
 
