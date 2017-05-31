@@ -99,7 +99,7 @@ final class ZPB_Plugin{
 		register_deactivation_hook( ZPB_PLUGIN_FILE, array( $this, 'onDeactivation' ) );
 
 		add_action( $this->config( 'action_name' ), array( $this, 'init' ), 0 );
-		add_action( 'widgets_init', array( $this, 'initWidgets' ) );
+		add_action( 'widgets_init', array( $this, 'initWidgets' ), 0 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontendScriptsAndStyles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'backendScriptsAndStyles' ) );
@@ -131,10 +131,6 @@ final class ZPB_Plugin{
 	 * @return void 
 	 */
 	public function initWidgets() {
-		do_action( 'zpb:before_widgets_init' );
-
-		// register_widget( 'ExampleWidget' );
-
 		do_action( 'zpb:widgets_init' );
 	}
 
@@ -163,7 +159,10 @@ final class ZPB_Plugin{
 	public function loadComponents(){
 		$components = glob( ZPB_PATH .'components/*', GLOB_ONLYDIR );
 		foreach ($components as $component_path) {
-			require_once trailingslashit( $component_path ) .'component.php';
+			$file = trailingslashit( $component_path ) .'component.php';
+			// if( file_exists( $file ) ){
+				require_once $file;
+			// }
 		}
 	}
 

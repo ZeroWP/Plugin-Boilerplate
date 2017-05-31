@@ -7,6 +7,13 @@ Then this file that hooks into 'zpb:init' action.
 Note the priority is set by default to 10. If you have a component that requires another
 component, just set a higher priority number.
 */
+
+/* No direct access allowed!
+---------------------------------*/
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/* Inject the component
+----------------------------*/
 add_action( 'zpb:init', function(){
 	
 	// Do anything you want here...
@@ -17,6 +24,6 @@ add_action( 'zpb:init', function(){
 	// echo str_repeat('Hello World!<br>', 10);
 
 	// Example: Autoloading works
-	_NAMESPACE_\Component\ExampleComponent\Thing\Create::test();
+	// _NAMESPACE_\Component\ExampleComponent\Thing\Create::test();
 
 }, 90);

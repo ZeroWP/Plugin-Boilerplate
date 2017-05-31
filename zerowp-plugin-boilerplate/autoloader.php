@@ -1,69 +1,62 @@
 <?php
-/*
--------------------------------------------------------------------------------
-Engine Autoloader
--------------------------------------------------------------------------------
-*/
-spl_autoload_register(function ($class) {
+class ZPB_Plugin_Autoloader{
 
-	// project-specific namespace prefix
-	$prefix = zpb_config( 'namespace' ) .'\\';
-
-	// base directory for the namespace prefix
-	$base_dir = ZPB_PATH .'engine/';
-
-	// does the class use the namespace prefix?
-	$len = strlen($prefix);
-	if (strncmp($prefix, $class, $len) !== 0) {
-		// no, move to the next registered autoloader
-		return;
+	public function __construct(){
+		spl_autoload_register( array( $this, 'autoloadEngine' ) );
+		spl_autoload_register( array( $this, 'autoloadComponents' ) );
 	}
 
-	// get the relative class name
-	$relative_class = substr($class, $len);
+	/*
+	-------------------------------------------------------------------------------
+	Engine Autoloader
+	-------------------------------------------------------------------------------
+	*/
+	public function autoloadEngine( $class ){
+		$prefix   = zpb_config( 'namespace' ) .'\\';
+		$base_dir = ZPB_PATH .'engine/';
 
-	// replace the namespace prefix with the base directory, replace namespace
-	// separators with directory separators in the relative class name, append
-	// with .class.php
-	$file = $base_dir . str_replace('\\', '/', $relative_class) . '.class.php';
-
-	// if the file exists, require it
-	if (file_exists($file)) {
-		require_once $file;
+		$this->locateFile( $class, $prefix, $base_dir );
 	}
-});
+	
+	/*
+	-------------------------------------------------------------------------------
+	Components Autoloader
+	-------------------------------------------------------------------------------
+	*/
+	public function autoloadComponents( $class ){
+		$prefix   = zpb_config( 'namespace' ) .'\\Component\\';
+		$base_dir = ZPB_PATH .'components/';
 
-
-/*
--------------------------------------------------------------------------------
-Components Autoloader
--------------------------------------------------------------------------------
-*/
-spl_autoload_register(function ($class) {
-
-	// project-specific namespace prefix
-	$prefix = zpb_config( 'namespace' ) .'\\Component\\';
-
-	// base directory for the namespace prefix
-	$base_dir = ZPB_PATH .'components/';
-
-	// does the class use the namespace prefix?
-	$len = strlen($prefix);
-	if (strncmp($prefix, $class, $len) !== 0) {
-		// no, move to the next registered autoloader
-		return;
+		$this->locateFile( $class, $prefix, $base_dir );
 	}
 
-	// get the relative class name
-	$relative_class = substr($class, $len);
+	/*
+	-------------------------------------------------------------------------------
+	Locate file for autoload
+	-------------------------------------------------------------------------------
+	*/
+	public function locateFile( $class, $prefix, $base_dir ){
+		// does the class use the namespace prefix?
+		$len = strlen($prefix);
+		if (strncmp($prefix, $class, $len) !== 0) {
+			// no, move to the next registered autoloader
+			return;
+		}
 
-	// replace the namespace prefix with the base directory, replace namespace
-	// separators with directory separators in the relative class name, append
-	// with .class.php
-	$file = $base_dir . str_replace('\\', '/', $relative_class) . '.class.php';
+		// get the relative class name
+		$relative_class = substr($class, $len);
 
-	// if the file exists, require it
-	if (file_exists($file)) {
-		require_once $file;
+		// replace the namespace prefix with the base directory, replace namespace
+		// separators with directory separators in the relative class name, append
+		// with .class.php
+		$file = $base_dir . str_replace('\\', '/', $relative_class) . '.class.php';
+
+		// if the file exists, require it
+		if (file_exists($file)) {
+			require_once $file;
+		}
 	}
-});
+
+}
+
+new ZPB_Plugin_Autoloader;
