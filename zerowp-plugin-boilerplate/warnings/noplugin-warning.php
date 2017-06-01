@@ -1,4 +1,4 @@
-s<?php 
+<?php 
 require_once ZPB_PATH . 'warnings/abstract-warning.php';
 
 class ZPB_NoPlugin_Warning extends ZPB_Astract_Warning{
@@ -25,7 +25,7 @@ class ZPB_NoPlugin_Warning extends ZPB_Astract_Warning{
 					$button = '<a href="'. esc_url_raw( $plugin['plugin_uri'] ) .'" class="zpb-plugin-info-button" target="_blank">'. __( 'Get the plugin', '_TEXT_DOMAIN_' ) .'</a>';
 				}
 				else{
-					$button = '<a href="#" class="zpb-plugin-info-button disabled" target="_blank">'. __( 'Get the plugin', '_TEXT_DOMAIN_' ) .'</a>';
+					$button = '<a href="#" onclick="return false;" class="zpb-plugin-info-button disabled">'. __( 'Get the plugin', '_TEXT_DOMAIN_' ) .'</a>';
 				}
 
 				$output .= '<li>'. $plugin_name . $button .'</li>';

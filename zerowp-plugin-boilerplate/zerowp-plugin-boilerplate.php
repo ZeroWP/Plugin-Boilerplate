@@ -28,12 +28,20 @@ function zpb_config( $key = false ){
 		'min_php_version'  => '_MIN_PHP_VERSION_',
 		
 		// The list of required plugins. 'slug' => array 'name and uri'
-		'required_plugins' => array(),
+		'required_plugins' => array(
+			// 'test' => array(
+			// 	'plugin_name' => 'Test',
+			// 	'plugin_uri' => 'http://example.com/'
+			// ),
+			// 'another-test' => array(
+			// 	'plugin_name' => 'Another Test',
+			// ),
+		),
 
 		// The priority in plugins loaded. Only if has required plugins
 		'priority'         => 10,
 
-		// Main action. This may be needed if is an extension to for another plugin.
+		// Main action. You may need to change it if is an extension for another plugin.
 		'action_name'      => 'init',
 
 		// Plugin branding

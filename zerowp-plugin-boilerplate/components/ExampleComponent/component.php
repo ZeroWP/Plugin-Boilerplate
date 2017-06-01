@@ -1,11 +1,13 @@
 <?php 
 /*
-This is just an example component.
+This is just an example component. It may not fit your needs, so you're free to modify it however you like.
 All you have to do is to create a folder with a unique name in `components` directory.
 The folder name will be included in namspace for classes included in this component.
-Then this file that hooks into 'zpb:init' action.
 Note the priority is set by default to 10. If you have a component that requires another
 component, just set a higher priority number.
+
+In this example we hook all code directly in 'zpb:init', but in some cases this may be too late.
+For example to add support for theme features, you may want to use `after_setup_theme`.
 */
 
 /* No direct access allowed!

@@ -74,3 +74,10 @@ ul.zpb-required-plugins-list li .zpb-plugin-info-button:hover{
 ul.zpb-required-plugins-list li .zpb-plugin-info-button:focus{
 	box-shadow: none;
 }
+ul.zpb-required-plugins-list li .zpb-plugin-info-button.disabled,
+ul.zpb-required-plugins-list li .zpb-plugin-info-button.disabled:hover{
+	border-color: #ddd;
+	color: #aaa;
+	background: #fefefe;
+	cursor: default;
+}

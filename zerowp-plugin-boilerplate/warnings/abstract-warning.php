@@ -36,7 +36,7 @@ abstract class ZPB_Astract_Warning{
 
 		
 	public function style(){
-		if( is_admin() && isset( $_GET['page'] ) && $this->page_slug === $_GET['page'] ){
+		if( is_admin() && isset( $_GET['page'] ) && ($this->page_slug === $_GET['page']) ){
 			wp_enqueue_style( 'zpb-fail-notice', ZPB_URL . 'warnings/style.css', false, ZPB_VERSION );
 		}
 	}
