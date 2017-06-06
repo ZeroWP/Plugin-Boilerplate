@@ -163,7 +163,7 @@ final class ZPB_Plugin{
 	//------------------------------------//--------------------------------------//
 	
 	/**
-	 * Frontend scripts & styles
+	 * Front-end scripts & styles
 	 *
 	 * @return void 
 	 */
@@ -183,6 +183,7 @@ final class ZPB_Plugin{
 				'src'     => $this->assetsURL( 'js/config.js' ),
 				'deps'    => array( 'jquery' ),
 				'enqueue' => false,
+				// 'enqueue_callback' => 'is_home',
 			),
 		));
 
@@ -191,7 +192,7 @@ final class ZPB_Plugin{
 	//------------------------------------//--------------------------------------//
 	
 	/**
-	 * Backend scripts & styles
+	 * Back-end scripts & styles
 	 *
 	 * @return void 
 	 */
@@ -221,6 +222,135 @@ final class ZPB_Plugin{
 
 	}
 
+	/*
+	-------------------------------------------------------------------------------
+	Styles
+	-------------------------------------------------------------------------------
+	*/
+	public function addStyles( $styles ){
+		if( !empty( $styles ) ){
+
+			foreach ($styles as $handle => $s) {
+				
+				/* If just calling an already registered style
+				------------------------------------------------------*/
+				if( is_numeric( $handle ) && !empty($s) ){
+					wp_enqueue_style( $s );
+					continue;
+				}
+
+				/* Merge with defaults
+				------------------------------*/
+				$s = wp_parse_args( $s, array(
+					'deps'    => array(),
+					'ver'     => $this->version,
+					'media'   => 'all',
+					'enqueue' => true,
+					'enqueue_callback' => false,
+				));
+				
+				/* Register style
+				-------------------------*/
+				wp_register_style( $handle, $s['src'], $s['deps'], $s['ver'], $s['media'] );
+				
+				/* Enqueue style
+				------------------------*/
+				$this->_enqueue( 'style', $s, $handle );
+			}
+
+		}
+	}
+
+	/*
+	-------------------------------------------------------------------------------
+	Scripts
+	-------------------------------------------------------------------------------
+	*/
+	public function addScripts( $scripts ){
+		if( !empty( $scripts ) ){
+
+			foreach ($scripts as $handle => $s) {
+				
+				/* If just calling an already registered script
+				----------------------------------------------------*/
+				if( is_numeric( $handle ) && !empty($s) ){
+					wp_enqueue_script( $s );
+					continue;
+				}
+
+				/* Register
+				----------------*/
+				// Merge with defaults
+				$s = wp_parse_args( $s, array(
+					'deps'      => array( 'jquery' ),
+					'ver'       => $this->version,
+					'in_footer' => true,
+					'enqueue'   => true,
+					'enqueue_callback' => false,
+				));
+				
+				wp_register_script( $handle, $s['src'], $s['deps'], $s['ver'], $s['in_footer'] );
+				
+				/* Enqueue
+				---------------*/
+				$this->_enqueue( 'script', $s, $handle );
+
+				/* Localize 
+				-----------------*/
+				// Remove known keys 
+				unset( $s['src'], $s['deps'], $s['ver'], $s['in_footer'], $s['enqueue'], $s['enqueue_callback'] );
+
+				// Probably we have localization strings
+				if( !empty( $s ) ){
+
+					// Get first key from array. This may contain the strings for wp_localize_script
+					$localize_key = key( $s );
+
+					// Get strings
+					$localization_strings = $s[ $localize_key ];
+
+					// Localize strings
+					if( !empty( $localization_strings ) && is_array( $localization_strings ) ){
+						wp_localize_script( $handle, $localize_key, $localization_strings );
+					}
+
+				}
+			}
+
+		}
+	}
+
+	//------------------------------------//--------------------------------------//
+	
+	/**
+	 * Enqueue
+	 *
+	 * Try to enqueue, but first check the callback
+	 *
+	 * @param string $type 'script' or 'style'
+	 * @param array $s Parameters
+	 * @param string $handle Asset handle
+	 * @return void 
+	 */
+	protected function _enqueue( $type, $s, $handle ){
+		if( $s['enqueue'] ){
+			if( empty( $s['enqueue_callback'] ) || ( 
+				! empty( $s['enqueue_callback'] ) 
+				&& is_callable( $s['enqueue_callback'] ) 
+				&& call_user_func( $s['enqueue_callback'] )
+			) ){
+				
+				if( 'style' == $type ){
+					wp_enqueue_style( $handle );
+				}
+				elseif( 'script' == $type ){
+					wp_enqueue_script( $handle );
+				}
+
+			}
+		}
+	}
+
 	//------------------------------------//--------------------------------------//
 
 	/**
@@ -243,104 +373,6 @@ final class ZPB_Plugin{
 	public function onDeactivation() {
 		// Code to be executed on plugin deactivation
 		do_action( 'zpb:on_deactivation' );
-	}
-
-	/*
-	-------------------------------------------------------------------------------
-	Styles
-	-------------------------------------------------------------------------------
-	*/
-	protected function addStyles( $styles ){
-		if( !empty( $styles ) ){
-
-			foreach ($styles as $handle => $s) {
-				// If just calling an already registered style
-				if( is_numeric( $handle ) && !empty($s) ){
-					wp_enqueue_style( $s );
-					continue;
-				}
-
-				// Merge with defaults
-				$s = wp_parse_args( $s, array(
-					'deps'    => array(),
-					'ver'     => $this->version,
-					'media'   => 'all',
-					'enqueue' => true,
-				));
-				
-				// Register style
-				wp_register_style( $handle, $s['src'], $s['deps'], $s['ver'], $s['media'] );
-				
-				// Enqueue style
-				if( $s['enqueue'] ){
-					wp_enqueue_style( $handle );
-				}
-			}
-
-		}
-	}
-
-	/*
-	-------------------------------------------------------------------------------
-	Scripts
-	-------------------------------------------------------------------------------
-	*/
-	protected function addScripts( $scripts ){
-		if( !empty( $scripts ) ){
-
-			foreach ($scripts as $handle => $s) {
-				
-				/* If just calling an already registered script
-				----------------------------------------------------*/
-				if( is_numeric( $handle ) && !empty($s) ){
-					wp_enqueue_script( $s );
-					continue;
-				}
-
-				/* Register
-				----------------*/
-				// Merge with defaults
-				$s = wp_parse_args( $s, array(
-					'deps'      => array( 'jquery' ),
-					'ver'       => $this->version,
-					'in_footer' => true,
-					'enqueue'   => true,
-				));
-				
-				wp_register_script( $handle, $s['src'], $s['deps'], $s['ver'], $s['in_footer'] );
-				
-				/* Enqueue
-				---------------*/
-				if( $s['enqueue'] ){
-					wp_enqueue_script( $handle );
-				}
-
-				/* Localize 
-				-----------------*/
-				// Remove all keys that that has a false value
-				// $s = array_filter( $s );
-
-				// Remove known keys 
-				unset( $s['src'], $s['deps'], $s['ver'], $s['in_footer'], $s['enqueue'] );
-
-				// Probably we have loclization strings
-				if( !empty( $s ) ){
-
-					// Get first key from array. This may contain the strings for wp_localize_script
-					$localize_key = key( $s );
-
-					// Get strings
-					$localization_strings = $s[ $localize_key ];
-
-					// Localize strings
-					if( !empty( $localization_strings ) && is_array( $localization_strings ) ){
-						wp_localize_script( $handle, $localize_key, $localization_strings );
-					}
-
-				}
-			}
-
-		}
 	}
 
 	//------------------------------------//--------------------------------------//
@@ -392,7 +424,7 @@ final class ZPB_Plugin{
 Main plugin instance
 -------------------------------------------------------------------------------
 */
-function ZPB() {
+function _MAIN_() {
 	return ZPB_Plugin::instance();
 }
 
@@ -401,4 +433,4 @@ function ZPB() {
 Rock it!
 -------------------------------------------------------------------------------
 */
-ZPB();
+_MAIN_();
